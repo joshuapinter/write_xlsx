@@ -1889,7 +1889,7 @@ module Writexlsx
         if token.respond_to?(:to_ary)
           write_col(row, col, token, *options)
         else
-          write(row, col, token, *options)
+          write_string(row, col, token, *options)
         end
         col += 1
       end
