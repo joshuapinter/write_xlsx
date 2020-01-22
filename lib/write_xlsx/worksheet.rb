@@ -1891,6 +1891,15 @@ module Writexlsx
         else
           if token.blank?
             write_blank(row, col, *options)
+          elsif token.is_a?( Date )
+            date_format = @workbook.add_format( num_format: "yyyy-mm-dd" )
+            write_date_time( row, col, token.to_time.iso8601, date_format )
+          elsif token.is_a?( Time )
+            date_time_format = @workbook.add_format( num_format: "yyyy-mm-dd hh:mm:ss" )
+            write_date_time( row, col, token.iso8601, date_time_format )
+          # elsif token.match( /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/ ) # 24 hour time format.
+            # date_time_format = @workbook.add_format( num_format: "hh:mm:ss" )
+            # write_date_time( row, col, token, date_time_format )
           else
             write_string(row, col, token, *options)
           end
