@@ -1891,6 +1891,8 @@ module Writexlsx
         else
           if token.blank?
             write_blank(row, col, *options)
+          elsif token.is_a?( String ) && ( token.start_with?( "http://" ) || token.start_with?( "https://" ) || token.start_with?( "ftp://" ) || token.start_with?( "mailto:" ) )
+            write_url( row, col, token, *options )
           elsif token.is_a?( Numeric ) #|| token.is_a?( Alchemist::NumericConversion )
             write_number( row, col, token, *options )
           elsif token.is_a?( Money )
