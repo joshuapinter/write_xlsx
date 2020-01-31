@@ -1900,14 +1900,14 @@ module Writexlsx
 
             write_number( row, col, token.to_d, format )
           elsif token.is_a?( Date )
-            date_format = @workbook.add_format( num_format: "yyyy-mm-dd" )
-            write_date_time( row, col, token.to_time.iso8601, date_format )
-          elsif token.is_a?( Time )
-            date_time_format = @workbook.add_format( num_format: "yyyy-mm-dd hh:mm:ss" )
-            write_date_time( row, col, token.iso8601, date_time_format )
-          # elsif token.match( /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/ ) # 24 hour time format.
-            # date_time_format = @workbook.add_format( num_format: "hh:mm:ss" )
-            # write_date_time( row, col, token, date_time_format )
+            format = options.first || @workbook.add_format # Get passed in format or create a new one if none exist.
+
+            format.set_num_format( "yyyy-mm-dd" )
+
+            write_date_time( row, col, token.to_time.iso8601, format )
+          # elsif token.is_a?( Time ) # NOTE: Disabled this for now because it Excel doesn't automatically pull up the custom formatting for these cells/columns.
+          #   date_time_format = @workbook.add_format( num_format: "yyyy-mm-dd hh:mm:ss" )
+          #   write_date_time( row, col, token.iso8601, date_time_format )
           else
             write_string(row, col, token, *options)
           end
