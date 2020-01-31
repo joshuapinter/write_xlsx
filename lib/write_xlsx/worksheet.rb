@@ -1891,6 +1891,14 @@ module Writexlsx
         else
           if token.blank?
             write_blank(row, col, *options)
+          elsif token.is_a?( Numeric ) #|| token.is_a?( Alchemist::NumericConversion )
+            write_number( row, col, token, *options )
+          elsif token.is_a?( Money )
+            format = options.first || @workbook.add_format # Get passed in format or create a new one if none exist.
+
+            format.set_num_format( "$#,##0.00" )
+
+            write_number( row, col, token.to_d, format )
           elsif token.is_a?( Date )
             date_format = @workbook.add_format( num_format: "yyyy-mm-dd" )
             write_date_time( row, col, token.to_time.iso8601, date_format )
