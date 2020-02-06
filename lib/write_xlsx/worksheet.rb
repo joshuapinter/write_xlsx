@@ -1891,16 +1891,20 @@ module Writexlsx
         else
           if token.blank?
             write_blank(row, col, *options)
+
           elsif token.is_a?( String ) && ( token.start_with?( "http://" ) || token.start_with?( "https://" ) || token.start_with?( "ftp://" ) || token.start_with?( "mailto:" ) )
             write_url( row, col, token, *options )
+
           elsif token.is_a?( Numeric ) #|| token.is_a?( Alchemist::NumericConversion )
             write_number( row, col, token, *options )
+
           elsif token.is_a?( Money )
             format = options.first || @workbook.add_format # Get passed in format or create a new one if none exist.
 
             format.set_num_format( "$#,##0.00" )
 
             write_number( row, col, token.to_d, format )
+
           elsif token.is_a?( Date )
             format = options.first || @workbook.add_format # Get passed in format or create a new one if none exist.
 
@@ -1909,6 +1913,7 @@ module Writexlsx
             days_since_excel_epoch = ( token - Date.new(1899, 12, 30 ) ).to_i
 
             write_number( row, col, days_since_excel_epoch, format )
+
           elsif token.is_a?( String ) && token.match( /(?:[01]\d|2[0123]):(?:[012345]\d):(?:[012345]\d)/ ) # 24 hour times provided in the exact format hh:mm:ss.
             format = options.first || @workbook.add_format # Get passed in format or create a new one if none exist.
 
@@ -1917,9 +1922,11 @@ module Writexlsx
             fraction_of_the_day = Time.parse( token ).seconds_since_midnight / 86_400 # 86400 seconds in a 24 hour day.
 
             write_number( row, col, fraction_of_the_day, format )
+
           # elsif token.is_a?( Time ) # NOTE: Disabled this for now because Excel doesn't automatically pull up the custom formatting for these cells/columns.
           #   date_time_format = @workbook.add_format( num_format: "yyyy-mm-dd hh:mm:ss" )
           #   write_date_time( row, col, token.iso8601, date_time_format )
+
           else
             write_string(row, col, token, *options)
           end
