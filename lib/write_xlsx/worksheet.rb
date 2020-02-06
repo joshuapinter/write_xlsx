@@ -1906,8 +1906,8 @@ module Writexlsx
 
             format.set_num_format( "yyyy-mm-dd" )
 
-            write_date_time( row, col, token.to_time.iso8601, format )
-          # elsif token.is_a?( Time ) # NOTE: Disabled this for now because it Excel doesn't automatically pull up the custom formatting for these cells/columns.
+            write_date_time( row, col, token.iso8601, format )
+          # elsif token.is_a?( Time ) # NOTE: Disabled this for now because Excel doesn't automatically pull up the custom formatting for these cells/columns.
           #   date_time_format = @workbook.add_format( num_format: "yyyy-mm-dd hh:mm:ss" )
           #   write_date_time( row, col, token.iso8601, date_time_format )
           else
