@@ -2711,7 +2711,9 @@ module Writexlsx
       store_hyperlink(row, col, hyperlink)
 
       if hyperlinks_count > 65_530
-        raise "URL '#{url}' added but number of URLS is over Excel's limit of 65,530 URLS per worksheet."
+        # raise "URL '#{url}' added but number of URLS is over Excel's limit of 65,530 URLS per worksheet."
+        write_string(row, col, url, xf)
+        return
       end
 
       # Write the hyperlink string.
