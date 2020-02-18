@@ -1889,7 +1889,7 @@ module Writexlsx
         if token.respond_to?(:to_ary)
           write_col(row, col, token, *options)
         else
-          if token.blank?
+          if token.to_s.blank?
             write_blank(row, col, *options)
 
           elsif token.is_a?( String ) && ( token.start_with?( "http://" ) || token.start_with?( "https://" ) || token.start_with?( "ftp://" ) || token.start_with?( "mailto:" ) )
